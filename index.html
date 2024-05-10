@@ -10,6 +10,42 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+
+        #progressContainer {
+            width: 100%;
+            height: 20px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+        }
+
+        #progressBar {
+            width: 100%;
+            height: 20px;
+            background-color: #444;
+            border-radius: 0px;
+            position: relative;
+        }
+
+        #progressFill {
+            height: 100%;
+            background-color: #171717;
+            width: 0;
+            border-radius: 0px;
+            position: relative;
+        }
+
+        #progressPercentage {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            padding-left: 5px;
+        }
+
+
         img {
             display: block;
             margin: 0 auto;
@@ -23,7 +59,7 @@
             text-align: center;
         }
         h2 {
-            padding-left: 20px;
+            text-align: center;
         }
 
         #secondsDisplay {
@@ -40,17 +76,17 @@
             display: block;
         }
         #content {
-            display: flex; /* Enables flex layout */
-            flex-wrap: wrap; /* Allows the items to wrap onto multiple lines if necessary */
-            gap: 30px; /* Provides space between flex items */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
             margin: 10px;
             margin-right: 15px;
         }
 
         #aboutme, #preferences, #links {
-            flex: 1; /* Allows the sections to evenly distribute space and grow or shrink */
-            min-width: 430px; /* Ensures each section maintains a minimum width */
-            background-color: #171717; /* Explicitly set the background color */
+            flex: 1;
+            min-width: 430px;
+            background-color: #171717;
             border-radius: 15px;
             padding: 20px;
             box-sizing: border-box;
@@ -69,7 +105,7 @@
 
     <div id="content">
         <div id="aboutme">
-            <h2>About me:</h2>
+            <h2>About me</h2>
             <p1 id="eingerückt">🏠 Home: Düsseldorf, Germany</p1>
             <p1 id="eingerückt">🌐 Website: kel0002.uk</p1>
             <p1 id="eingerückt">💬 Languages: English, German</p1>
@@ -80,7 +116,7 @@
         </div>
     
         <div id="preferences">
-            <h2>Preferences:</h2>
+            <h2>Preferences</h2>
             <p1 id="eingerückt">📱 SmartphoneOS: Android</p1>
             <p1 id="eingerückt">🖥️ PCOS: Windows</p1>
             <p1 id="eingerückt">🌐 Browser: <a href="https://brave.com/de/" target="_blank">Brave</a></p1>
@@ -88,13 +124,20 @@
         </div>
     
         <div id="links">
-            <h2>Links:</h2>
+            <h2>Links</h2>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
             <p id="eingerückt"><i class="fab fa-youtube"></i> Youtube: <a href="https://www.youtube.com/channel/UCPm9_kJ5YMseDOXbySW_LmA" target="_blank">KEL0002</a></p>
             <p id="eingerückt"><i class="fab fa-youtube"></i> But also: <a href="https://www.youtube.com/channel/UCFjrn_rF2WySoo0b93sDqeg" target="_blank">AI.Content</a></p>
     
             <p id="eingerückt"><i class="fab fa-twitch"></i> Twitch: <a href="https://www.twitch.tv/kel00002" target="_blank">KEL0002</a></p>
             <p id="eingerückt"><i class="fab fa-github"></i> GitHub: <a href="https://github.com/KEL0002" target="_blank">KEL0002</a></p>
+        </div>
+    </div>
+    <div id="progressContainer">
+        <div id="progressBar">
+            <div id="progressFill">
+                <span id="progressPercentage"></span>
+            </div>
         </div>
     </div>
 
@@ -135,7 +178,36 @@
 
         displayElapsedTimeInFormat();
         setInterval(displayElapsedTimeInFormat, 1000);
-    </script>
+
+            function updateProgressBar(startDate, endDate) {
+            const currentDate = new Date();
+            const totalDuration = endDate - startDate;
+            const elapsedDuration = currentDate - startDate;
+            
+            let percentageProgress = (elapsedDuration / totalDuration) * 100;
+
+            if (percentageProgress > 100) {
+                percentageProgress = 100;
+            } else if (percentageProgress < 0) {
+                percentageProgress = 0;
+            }
+            
+            const progressFillElement = document.getElementById('progressFill');
+            progressFillElement.style.width = percentageProgress + '%';
+
+            const progressPercentageElement = document.getElementById('progressPercentage');
+            progressPercentageElement.textContent = `${Math.round(percentageProgress)}% through life`;
+        }
+
+        const startDate = new Date('2007-09-30T18:30:00');
+        const endDate = new Date('2091-04-11T12:00:00');
+
+        updateProgressBar(startDate, endDate);
+
+        setInterval(() => {
+            updateProgressBar(startDate, endDate);
+        }, 1000);
+            </script>
 </body>
 </html>
 
